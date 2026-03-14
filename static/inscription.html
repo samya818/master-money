@@ -37,14 +37,14 @@
         </form>
     </div>
     <p style="text-align:center;margin-top:1.5rem;font-size:0.84rem;color:var(--text-muted);">
-        Déjà un compte ? <a href="/connexion.html" style="color:var(--accent-green);font-weight:600;">Se connecter</a>
+        Déjà un compte ? <a href="/connexion" style="color:var(--accent-green);font-weight:600;">Se connecter</a>
     </p>
 </div>
 <script src="/js/config.js"></script>
 <script src="/js/auth.js"></script>
 <script>
 (function(){
-    if (auth.isLoggedIn()) { window.location.href = '/tableau-de-bord.html'; return; }
+    if (auth.isLoggedIn()) { window.location.href = '/tableau-de-bord'; return; }
     var form = document.getElementById('form-register');
     var msg = document.getElementById('message');
     function showMsg(text, isError) {
@@ -71,7 +71,7 @@
         .then(function(_r){
             if (_r.ok) {
                 auth.login(_r.json.token, _r.json.user);
-                window.location.href = '/tableau-de-bord.html';
+                window.location.href = '/tableau-de-bord';
             } else {
                 showMsg(_r.json.error || 'Erreur', true);
             }

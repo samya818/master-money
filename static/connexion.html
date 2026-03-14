@@ -33,7 +33,7 @@
         </form>
     </div>
     <p style="text-align:center;margin-top:1.5rem;font-size:0.84rem;color:var(--text-muted);">
-        Pas encore de compte ? <a href="/inscription.html" style="color:var(--accent-green);font-weight:600;">Créer un compte</a>
+        Pas encore de compte ? <a href="/inscription" style="color:var(--accent-green);font-weight:600;">Créer un compte</a>
     </p>
 </div>
 <script src="/js/config.js"></script>
@@ -41,7 +41,7 @@
 <script>
 (function(){
     if (auth.isLoggedIn()) {
-        window.location.href = '/tableau-de-bord.html';
+        window.location.href = '/tableau-de-bord';
         return;
     }
     var form = document.getElementById('form-login');
@@ -66,7 +66,7 @@
         .then(function(_r){
             if (_r.ok) {
                 auth.login(_r.json.token, _r.json.user);
-                var redirect = new URLSearchParams(window.location.search).get('redirect') || '/tableau-de-bord.html';
+                var redirect = new URLSearchParams(window.location.search).get('redirect') || '/tableau-de-bord';
                 window.location.href = redirect;
             } else {
                 showMsg(_r.json.error || 'Erreur de connexion', true);

@@ -4,4 +4,4 @@
  */
 window.API_BASE_URL = typeof __MM_API_URL__ !== 'undefined'
     ? __MM_API_URL__
-    : (window.API_BASE_URL || 'https://votre-app.railway.app');
+    : (window.API_BASE_URL || 'https://master-money.up.railway.app');
