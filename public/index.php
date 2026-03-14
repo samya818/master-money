@@ -1,4 +1,17 @@
 <?php
+// Autoriser CORS
+$cors_origin = $_ENV['CORS_ORIGIN'] ?? '*';
+header("Access-Control-Allow-Origin: $cors_origin");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
+
+// Gérer les requêtes OPTIONS (preflight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 /**
  * Routeur API Master Money — Railway.
  * Toutes les requêtes sont envoyées ici (php -S avec ce fichier comme routeur).
@@ -8,21 +21,6 @@
 $uri = $_SERVER['REQUEST_URI'] ?? '/';
 $path = parse_url($uri, PHP_URL_PATH);
 $path = rtrim($path, '/') ?: '/';
-
-// CORS (adapter ALLOW_ORIGIN en production)
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-$allow = getenv('CORS_ORIGIN') ?: '*';
-if ($allow === '*' || $origin === $allow) {
-    header('Access-Control-Allow-Origin: ' . ($allow === '*' ? '*' : $origin));
-}
-header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Authorization, Content-Type');
-header('Access-Control-Max-Age: 86400');
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(204);
-    exit;
-}
 
 $base = dirname(__DIR__);
 
