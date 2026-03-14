@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "framework": null,
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/connexion", "destination": "/connexion.html" },
+    { "source": "/inscription", "destination": "/inscription.html" },
+    { "source": "/tableau-de-bord", "destination": "/tableau-de-bord.html" },
+    { "source": "/calculateur", "destination": "/calculateur.html" },
+    { "source": "/depenses", "destination": "/depenses.html" },
+    { "source": "/objectifs", "destination": "/objectifs.html" },
+    { "source": "/simulation", "destination": "/simulation.html" },
+    { "source": "/comparaison", "destination": "/comparaison.html" },
+    { "source": "/guide", "destination": "/guide.html" },
+    { "source": "/profil", "destination": "/profil.html" },
+    { "source": "/export-pdf", "destination": "/export-pdf.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ]
+}

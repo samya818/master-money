@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — Master Money</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>(function(){var t=localStorage.getItem('mm_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+</head>
+<body style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+<div style="width:100%;max-width:400px;">
+    <div style="text-align:center;margin-bottom:2rem;">
+        <h2 style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--text-primary);">Connexion</h2>
+        <p style="color:var(--text-muted);font-size:0.86rem;">Accédez à votre espace budgétaire</p>
+    </div>
+    <div id="message" class="card" style="display:none;margin-bottom:1rem;"></div>
+    <div class="card">
+        <form id="form-login" style="display:flex;flex-direction:column;gap:1.1rem;">
+            <div>
+                <label style="font-size:0.78rem;color:var(--text-secondary);display:block;margin-bottom:0.45rem;">Email</label>
+                <input type="email" name="email" id="email" placeholder="votre@email.com" required style="width:100%;padding:0.75rem 1rem;border-radius:8px;font-size:0.88rem;">
+            </div>
+            <div>
+                <label style="font-size:0.78rem;color:var(--text-secondary);display:block;margin-bottom:0.45rem;">Mot de passe</label>
+                <input type="password" name="mot_de_passe" id="mot_de_passe" placeholder="••••••••" required style="width:100%;padding:0.75rem 1rem;border-radius:8px;font-size:0.88rem;">
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:0.82rem;">Se connecter</button>
+        </form>
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;font-size:0.84rem;color:var(--text-muted);">
+        Pas encore de compte ? <a href="inscription.html" style="color:var(--accent-green);font-weight:600;">Créer un compte</a>
+    </p>
+</div>
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+(function(){
+    if (auth.isLoggedIn()) { window.location.href = 'tableau-de-bord.html'; return; }
+    var form = document.getElementById('form-login');
+    var msg = document.getElementById('message');
+    function showMsg(text, isError) {
+        msg.style.display = 'block';
+        msg.textContent = text;
+        msg.style.background = isError ? 'rgba(255,79,109,0.08)' : 'rgba(0,229,160,0.08)';
+        msg.style.borderColor = isError ? 'rgba(255,79,109,0.25)' : 'rgba(0,229,160,0.25)';
+        msg.style.color = isError ? 'var(--danger)' : 'var(--accent-green)';
+    }
+    form.addEventListener('submit', function(e){
+        e.preventDefault();
+        fetch(window.API_BASE_URL + '/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: document.getElementById('email').value.trim(), mot_de_passe: document.getElementById('mot_de_passe').value })
+        }).then(function(r){ return r.json().then(function(j){ return { ok: r.ok, json: j }; }); })
+        .then(function(_r){
+            if (_r.ok) { auth.login(_r.json.token, _r.json.user); window.location.href = new URLSearchParams(location.search).get('redirect') || 'tableau-de-bord.html'; }
+            else showMsg(_r.json.error || 'Erreur de connexion', true);
+        }).catch(function(){ showMsg('Erreur réseau. Vérifiez API_BASE_URL.', true); });
+    });
+})();
+</script>
+</body>
+</html>
