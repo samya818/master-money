@@ -22,6 +22,12 @@ $uri = $_SERVER['REQUEST_URI'] ?? '/';
 $path = parse_url($uri, PHP_URL_PATH);
 $path = rtrim($path, '/') ?: '/';
 
+// Log temporaire pour déboguer
+error_log('=== DEBUT REQUETE ===');
+error_log('URI: ' . ($_SERVER['REQUEST_URI'] ?? ''));
+error_log('METHOD: ' . ($_SERVER['REQUEST_METHOD'] ?? ''));
+error_log('PATH: ' . $path);
+
 $base = dirname(__DIR__);
 
 // /api/login, /api/register (sans auth), /api/dashboard, /api/budget, etc.
